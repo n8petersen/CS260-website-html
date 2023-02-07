@@ -17,5 +17,11 @@ fi
 printf "\n----> Deploying root website to $hostname with $key\n-------------------------------\n"
 
 # Step 1 - Copy all files found in the current directory.
+printf "\n----> Stopping the caddy service"
+ssh -i "$key" ubuntu@$hostname sudo service caddy stop
+
 printf "\n----> Copy the home page files to the target.\n"
 scp -r -i "$key" * ubuntu@$hostname:public_html/
+
+printf "\n----> Starting the caddy service"
+ssh -i "$key" ubuntu@$hostname sudo service caddy start
